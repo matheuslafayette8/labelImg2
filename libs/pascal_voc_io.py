@@ -83,11 +83,12 @@ class PascalVocWriter:
         bndbox['extra'] = extra
         self.boxlist.append(bndbox)
 
-    def addRotatedBndBox(self, cx, cy, w, h, angle, name, difficult, extra):
+    def addRotatedBndBox(self, cx, cy, w, h, angle, name, difficult, extra, points):
         robndbox = {'cx': cx, 'cy': cy, 'w': w, 'h': h, 'angle': angle}
         robndbox['name'] = name
         robndbox['difficult'] = difficult
         robndbox['extra'] = extra
+        robndbox['points'] = points
         self.roboxlist.append(robndbox)
 
     def appendObjects(self, top):
@@ -157,6 +158,8 @@ class PascalVocWriter:
             angle = SubElement(robndbox, 'angle')
             angle.text = str(each_object['angle'])
             extra = SubElement(object_item, 'extra')
+            points = SubElement(object_item, 'points')
+            points.text = str(each_object['points'])
             try:
                 extra.text = unicode(each_object['extra'])
             except NameError:

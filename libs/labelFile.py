@@ -67,7 +67,7 @@ class LabelFile(object):
             else: #if shape is rotated box, save as rotated bounding box
                 robndbox = LabelFile.convertPoints2RotatedBndBox(shape)
                 writer.addRotatedBndBox(robndbox[0],robndbox[1],
-                    robndbox[2],robndbox[3],robndbox[4],label,difficult, extra_text)
+                    robndbox[2],robndbox[3],robndbox[4],label,difficult, extra_text, points)
 
         writer.save(targetFile=filename)
         return

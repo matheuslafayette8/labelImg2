@@ -13,7 +13,7 @@ import subprocess
 from functools import partial
 from collections import defaultdict
 
-from libs.naturalsort import natsort
+from natsort import natsorted
 
 try:
     from PyQt5.QtGui import *
@@ -859,13 +859,13 @@ class MainWindow(QMainWindow, WindowMixin):
         #units = - delta / (8 * 15)
         units = - delta / (2 * 15)
         bar = self.scrollBars[orientation]
-        bar.setValue(bar.value() + bar.singleStep() * units)
+        bar.setValue(int(bar.value() + bar.singleStep() * units))
 
     def setZoom(self, value):
         self.actions.fitWidth.setChecked(False)
         self.actions.fitWindow.setChecked(False)
         self.zoomMode = self.MANUAL_ZOOM
-        self.zoomWidget.setValue(value)
+        self.zoomWidget.setValue(int(value))
 
     def addZoom(self, increment=10):
         self.setZoom(self.zoomWidget.value() + increment)
@@ -919,8 +919,8 @@ class MainWindow(QMainWindow, WindowMixin):
         new_h_bar_value = h_bar.value() + move_x * d_h_bar_max
         new_v_bar_value = v_bar.value() + move_y * d_v_bar_max
 
-        h_bar.setValue(new_h_bar_value)
-        v_bar.setValue(new_v_bar_value)
+        h_bar.setValue(int(new_h_bar_value))
+        v_bar.setValue(int(new_v_bar_value))
 
     def setFitWindow(self, value=True):
         if value:
@@ -1091,6 +1091,7 @@ class MainWindow(QMainWindow, WindowMixin):
         if self.mayContinue():
             self.loadFile(filename)
 
+
     def scanAllImages(self, folderPath):
         extensions = ['.%s' % fmt.data().decode("ascii").lower() for fmt in QImageReader.supportedImageFormats()]
         images = []
@@ -1101,9 +1102,8 @@ class MainWindow(QMainWindow, WindowMixin):
                     relativePath = os.path.join(root, file)
                     path = ustr(os.path.abspath(relativePath))
                     images.append(path)
-        # TODO: ascii decode error in natsort
-        #images = natsort(images, key=lambda x: x.lower())
-        #images.sort(key= lambda a, b: lexicographical_compare(a,b) )
+        
+        images = natsorted(images)
         return images
 
     def changeSavedirDialog(self, _value=False):

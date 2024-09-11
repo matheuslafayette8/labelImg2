@@ -84,4 +84,6 @@ def generateColorByText(text):
     r = int((hashCode / 255) % 255)
     g = int((hashCode / 65025)  % 255)
     b = int((hashCode / 16581375)  % 255)
+    if text == "Car":
+        return QColor(0, 0, 255, 200)
     return QColor(r, g, b, 200)
